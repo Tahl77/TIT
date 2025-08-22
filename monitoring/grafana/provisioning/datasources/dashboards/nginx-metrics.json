@@ -1,0 +1,78 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Nginx Load Balancer Metrics",
+    "tags": ["nginx", "loadbalancer", "tit"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Nginx Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"nginx-load-balancer\"}",
+            "legendFormat": "Nginx Status"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "green", "value": 1}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Backend Health",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "up{job=\"tit-web-applications\"}",
+            "legendFormat": "{{instance}}",
+            "format": "table"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 18, "x": 6, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Load Distribution",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "sum by (instance) (rate(tit_requests_total[5m]))",
+            "legendFormat": "{{instance}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 4,
+        "title": "Request Volume Over Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(tit_requests_total[1m]))",
+            "legendFormat": "Total Requests/sec"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+      }
+    ],
+    "time": {
+      "from": "now-15m",
+      "to": "now"
+    },
+    "refresh": "5s",
+    "schemaVersion": 30,
+    "version": 1
+  }
+}

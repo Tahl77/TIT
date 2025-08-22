@@ -1,16 +1,22 @@
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Internet      │────│  Application     │────│  Auto Scaling   │
-│   Gateway       │    │  Load Balancer   │    │  Group (2-4)    │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                │                        │
-                                │                        ▼
-                       ┌──────────────────┐    ┌─────────────────┐
-                       │   CloudWatch     │    │   EC2 Instances │
-                       │   Monitoring     │    │   (Web Servers) │
-                       └──────────────────┘    └─────────────────┘
-                                                        │
-                                                        ▼
-                                              ┌─────────────────┐
-                                              │   RDS MySQL     │
-                                              │   Database      │
-                                              └─────────────────┘
+                    Internet
+                        │
+                        ▼
+              ┌─────────────────┐
+              │   EC2 Instance  │
+              │  (Nginx Proxy)  │  ◄── Single t2.micro (Free Tier)
+              │   + Web Apps    │
+              └─────────────────┘
+                        │
+                        ▼
+              ┌─────────────────┐
+              │   RDS MySQL     │  ◄── db.t3.micro (Free Tier)
+              │   (Free Tier)   │
+              └─────────────────┘
+
+EC2 t2.micro:     $0.00/month (Free Tier)
+RDS db.t3.micro:  $0.00/month (Free Tier)
+EBS 20GB:         $0.00/month (Free Tier)
+Data Transfer:    $0.00/month (Free Tier)
+Nginx:            $0.00/month (Open Source)
+─────────────────────────────────────────
+TOTAL:            $0.00/month              

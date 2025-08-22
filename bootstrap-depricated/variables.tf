@@ -4,16 +4,10 @@ variable "aws_region" {
   default     = "eu-north-1"
 }
 
-variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t3.medium"  # More powerful for development
-}
-
 variable "allowed_ssh_cidr" {
   description = "CIDR blocks allowed SSH access"
   type        = list(string)
-  default     = ["0.0.0.0/0"]  # Restrict this to your IP
+  default     = ["0.0.0.0/0"]
 }
 
 variable "ssh_public_key" {

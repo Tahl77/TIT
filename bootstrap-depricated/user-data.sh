@@ -5,19 +5,18 @@ yum update -y
 
 # Install development tools
 yum groupinstall -y "Development Tools"
-yum install -y git curl wget unzip
+yum install -y git curl wget unzip htop
 
 # Install Terraform
+cd /tmp
 wget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
 unzip terraform_1.6.6_linux_amd64.zip
 sudo mv terraform /usr/local/bin/
-rm terraform_1.6.6_linux_amd64.zip
 
-# Install AWS CLI v2
+# Install AWS CLI
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
-rm -rf aws awscliv2.zip
 
 # Install Docker
 yum install -y docker
@@ -29,35 +28,26 @@ usermod -a -G docker ec2-user
 curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
-# Install Node.js and npm (useful for additional tools)
-curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
-yum install -y nodejs
-
-# Create workspace directory
+# Clone repository
 mkdir -p /home/ec2-user/workspace
 cd /home/ec2-user/workspace
-
-# Clone the TIT repository
 git clone ${github_repo}
 chown -R ec2-user:ec2-user /home/ec2-user/workspace
 
-# Create helpful scripts
+# Create setup script
 cat << 'EOF' > /home/ec2-user/setup-demo.sh
 #!/bin/bash
-echo "🚀 Setting up TIT demo environment..."
+echo "🚀 Setting up TIT Free Tier Demo..."
 
 cd /home/ec2-user/workspace/TIT
-
-# Make scripts executable
 chmod +x scripts/*.sh
 
-# Copy terraform.tfvars.example
+# Setup terraform vars
 cp terraform/terraform.tfvars.example terraform/terraform.tfvars
 
-echo "✅ Demo environment ready!"
-echo "📁 Repository cloned to: /home/ec2-user/workspace/TIT"
-echo "📝 Edit terraform/terraform.tfvars with your settings"
-echo "🚀 Run: ./scripts/deploy.sh to deploy infrastructure"
+echo "✅ Free Tier demo ready!"
+echo "📁 Project: /home/ec2-user/workspace/TIT"
+echo "🚀 Deploy: ./scripts/deploy.sh"
 EOF
 
 chmod +x /home/ec2-user/setup-demo.sh
@@ -96,14 +86,14 @@ cat << 'EOF' > /etc/motd
 ╔════════════════════════════════════════════════════════════════╗
 ║                    TIT Development Machine                     ║
 ║                                                                ║
-║  🚀 All tools installed: Terraform, AWS CLI, Docker, Git      ║
-║  📁 Project location: /home/ec2-user/workspace/TIT             ║
-║  🔧 Setup command: ./setup-demo.sh                            ║
+║  🚀 All tools installed: Terraform, AWS CLI, Docker, Git  🚀  ║
+║  📁 Project location: /home/ec2-user/workspace/TIT        📁  ║
+║  🔧 Setup command: ./setup-demo.sh                        🔧  ║
 ║                                                                ║
 ║  Quick commands:                                               ║
-║    tit          - Go to project directory                     ║
-║    awswhoami    - Check AWS credentials                       ║
-║    tf           - Terraform shortcut                          ║
+║    tit          - Go to project directory                      ║
+║    awswhoami    - Check AWS credentials                        ║
+║    tf           - Terraform shortcut                           ║
 ║                                                                ║
 ╚════════════════════════════════════════════════════════════════╝
 

@@ -1,5 +1,5 @@
 variable "aws_region" {
-  description = "AWS region for resources"
+  description = "AWS region"
   type        = string
   default     = "eu-north-1"
 }
@@ -22,18 +22,13 @@ variable "environment" {
 }
 
 variable "db_password" {
-  description = "Password for RDS instance"
+  description = "Database password"
   type        = string
   sensitive   = true
-  
-  validation {
-    condition     = length(var.db_password) >= 8
-    error_message = "Database password must be at least 8 characters long."
-  }
 }
 
-variable "allowed_cidr_blocks" {
-  description = "CIDR blocks allowed to access the application"
+variable "allowed_ssh_cidr" {
+  description = "CIDR blocks for SSH access"
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }

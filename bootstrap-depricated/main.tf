@@ -11,19 +11,20 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Get default VPC
 data "aws_vpc" "default" {
   default = true
 }
 
-# Get default subnet
 data "aws_subnet" "default" {
   vpc_id            = data.aws_vpc.default.id
-  availability_zone = "${var.aws_region}a"
+  availability_zone = data.aws_availability_zones.available.names[0]
   default_for_az    = true
 }
 
-# Get latest Amazon Linux 2 AMI
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 data "aws_ami" "amazon_linux" {
   most_recent = true
   owners      = ["amazon"]
@@ -34,12 +35,12 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-# Security Group for development machine
+
 resource "aws_security_group" "dev_machine" {
-  name_prefix = "tit-dev-machine-"
+  name_prefix = "tit-dev-sg-"
   vpc_id      = data.aws_vpc.default.id
 
-  # SSH access
+  # SSH
   ingress {
     from_port   = 22
     to_port     = 22
@@ -47,7 +48,7 @@ resource "aws_security_group" "dev_machine" {
     cidr_blocks = var.allowed_ssh_cidr
   }
 
-  # HTTP access for testing
+  # HTTP
   ingress {
     from_port   = 80
     to_port     = 80
@@ -55,15 +56,7 @@ resource "aws_security_group" "dev_machine" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # HTTPS access
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # Docker/app ports for testing
+  # Development ports
   ingress {
     from_port   = 8080
     to_port     = 8090
@@ -79,14 +72,12 @@ resource "aws_security_group" "dev_machine" {
   }
 
   tags = {
-    Name    = "tit-dev-machine-sg"
-    Project = "TIT-DevMachine"
+    Name = "tit-dev-sg"
   }
 }
 
-# IAM role for EC2 instance
-resource "aws_iam_role" "dev_machine_role" {
-  name = "tit-dev-machine-role"
+resource "aws_iam_role" "dev_role" {
+  name = "tit-dev-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -102,59 +93,60 @@ resource "aws_iam_role" "dev_machine_role" {
   })
 }
 
-# IAM policy for full AWS access (for demo purposes)
-resource "aws_iam_role_policy" "dev_machine_policy" {
-  name = "tit-dev-machine-policy"
-  role = aws_iam_role.dev_machine_role.id
+resource "aws_iam_role_policy" "dev_policy" {
+  name = "tit-dev-policy"
+  role = aws_iam_role.dev_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
         Effect = "Allow"
-        Action = "*"
+        Action = [
+          "ec2:*",
+          "rds:*",
+          "iam:*",
+          "cloudwatch:*",
+          "logs:*"
+        ]
         Resource = "*"
       }
     ]
   })
 }
 
-resource "aws_iam_instance_profile" "dev_machine_profile" {
-  name = "tit-dev-machine-profile"
-  role = aws_iam_role.dev_machine_role.name
+resource "aws_iam_instance_profile" "dev_profile" {
+  name = "tit-dev-profile"
+  role = aws_iam_role.dev_role.name
 }
 
-# Key pair for SSH access
-resource "aws_key_pair" "dev_machine_key" {
-  key_name   = "tit-dev-machine-key"
+resource "aws_key_pair" "dev_key" {
+  key_name   = "tit-dev-key"
   public_key = var.ssh_public_key
 }
 
-# EC2 Instance for development
 resource "aws_instance" "dev_machine" {
   ami           = data.aws_ami.amazon_linux.id
-  instance_type = var.instance_type
+  instance_type = "t2.micro"  # FREE TIER
   
   subnet_id                   = data.aws_subnet.default.id
   vpc_security_group_ids      = [aws_security_group.dev_machine.id]
   associate_public_ip_address = true
   
-  key_name             = aws_key_pair.dev_machine_key.key_name
-  iam_instance_profile = aws_iam_instance_profile.dev_machine_profile.name
+  key_name             = aws_key_pair.dev_key.key_name
+  iam_instance_profile = aws_iam_instance_profile.dev_profile.name
   
   user_data = base64encode(templatefile("${path.module}/user-data.sh", {
     github_repo = var.github_repo
   }))
 
   root_block_device {
-    volume_type = "gp3"
-    volume_size = 20
-    encrypted   = true
+    volume_type = "gp2"
+    volume_size = 8  # FREE TIER (up to 30GB)
+    encrypted   = false  # Encryption costs extra
   }
 
   tags = {
-    Name        = "TIT-DevMachine"
-    Project     = "TIT-DevMachine"
-    Environment = "development"
+    Name = "TIT-DevMachine-FreeTier"
   }
 }
