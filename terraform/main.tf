@@ -133,7 +133,7 @@ resource "aws_db_instance" "main" {
   instance_class = "db.t3.micro"
   
   allocated_storage     = 20
-  max_allocated_storage = 100
+  max_allocated_storage = 30
   storage_type          = "gp2"
   storage_encrypted     = true
   

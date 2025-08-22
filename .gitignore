@@ -1,0 +1,52 @@
+# Ignore all generated files
+
+# Common build directories
+/dist/
+/build/
+/out/
+/bin/
+/obj/
+
+# Dependency directories
+/node_modules/
+/vendor/
+/packages/
+
+# Compiled source #
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# IDE and editor folders
+/.vscode/
+/.idea/
+/.terraform/
+/*.sublime-workspace
+/*.sublime-project
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+/coverage/
+/coverage-*/
+
+# Misc generated files
+*.tmp
+*.bak
+*.swp
+*.swo
+*.orig
+*.cache
+bootstrap/.terraform.lock.hcl
+bootstrap/terraform.tfstate
+bootstrap/terraform.tfstate.backup
+bootstrap/.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/windows_amd64/LICENSE.txt

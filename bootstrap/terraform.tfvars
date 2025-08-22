@@ -1,10 +1,9 @@
-aws_region = "us-east-1"
-instance_type = "t3.medium"
+aws_region = "eu-north-1"
+instance_type = "t2.micro"
 
-# Paste your SSH public key here (the long line starting with ssh-rsa)
-ssh_public_key = ""
-# Replace with your actual IP (from step 3)
-allowed_ssh_cidr = ["/32"]
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLI8fz0SV2xYFvwP0YKXOp7hPvFHXPSONLUDzxZD3awFJnanfSehT/mGE2vKG3mqZd45Hh1viKtAKR0Qs5CbHgX6lIAdOzp3wCFskdZ9dEFHsgnBMHeGy5/jyUBTKFlJ1wIHm7l7wobWO7QFUAjcxPzWtg8wDsG0GrkxFOJz1hxTBlQgwSMku6w1doztYgaZs6WOHkom6SNbEvFgltsUVGvs937Mdf0Rf2+gT42k8HsnF4IEfAR31ImbAMCVO7wtPPC28bbyJ6NKumVjdJYXal6pu9/RODRknTlgjavH8b/wsXtQ/IYcJBS44ohcWFq+exguC6gGFJGx9JNVOuqvXlXK9fB7bDFcNeLaOg62z4IE9KONOCa0M5tz9NFLNswikNFl0M7M8cBv4flpck6ExlYM2HJoojJAMT1ZpAaAnyT13acvH4zNROYoSNPNgv3Y3piw+OQ9Lbh0VepPofgPUfTmfKsymMnXFg886cZ+9a8HMI6EPHzmVInUYhy5RjlqjzhQXu+TfMwqfmLcGIP+NTz6Y26z4kHDvxnaESSJOQEcvwjXLfGqmZSE5cgOwwNQ869JoLJSY8PK/y3k/HDSL5XWSv5hCKFIilPUTOjrgG97WVw8NoDP4xsqfmqVh4v/RtSL3CANyEGofrzmYca7Lq8xNzxx8BfvtVw2mnvt/Y0w== acer@DESKTOP-PPR7LH6"
+
+allowed_ssh_cidr = ["37.63.95.23/32"]
 
 # Update with your GitHub username
-github_repo = "https://github.com/YOUR_USERNAME/TIT.git"
+github_repo = "https://github.com/tahl77/TIT.git"
