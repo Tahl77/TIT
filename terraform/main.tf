@@ -42,10 +42,10 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-# EC2 Instance for Web Application - t2.micro (FREE TIER)
+# EC2 Instance for Web Application - t3.micro (FREE TIER)
 resource "aws_instance" "web_server" {
   ami           = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"  # FREE TIER
+  instance_type = "t3.micro"  # FREE TIER
   
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
   associate_public_ip_address = true

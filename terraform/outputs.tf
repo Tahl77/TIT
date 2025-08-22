@@ -53,7 +53,7 @@ output "monitoring_credentials" {
 output "cost_summary" {
   description = "AWS Free Tier cost breakdown"
   value = {
-    ec2_instance      = "t2.micro - $0.00/month (Free Tier)"
+    ec2_instance      = "t3.micro - $0.00/month (Free Tier)"
     rds_database      = "db.t3.micro - $0.00/month (Free Tier)"
     ebs_storage       = "20GB - $0.00/month (Free Tier)"
     nginx_lb          = "Open Source - $0.00/month"

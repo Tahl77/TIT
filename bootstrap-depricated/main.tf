@@ -127,7 +127,7 @@ resource "aws_key_pair" "dev_key" {
 
 resource "aws_instance" "dev_machine" {
   ami           = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"  # FREE TIER
+  instance_type = "t3.micro"  # FREE TIER
   
   subnet_id                   = data.aws_subnet.default.id
   vpc_security_group_ids      = [aws_security_group.dev_machine.id]

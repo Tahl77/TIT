@@ -215,7 +215,7 @@ def index():
                 <div class="cost-breakdown">
                     <h3>💰 AWS Free Tier Breakdown</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-                        <div>✅ <strong>EC2 t2.micro:</strong> $0.00/month</div>
+                        <div>✅ <strong>EC2 t3.micro:</strong> $0.00/month</div>
                         <div>✅ <strong>RDS db.t3.micro:</strong> $0.00/month</div>
                         <div>✅ <strong>EBS 20GB:</strong> $0.00/month</div>
                         <div>✅ <strong>Nginx Load Balancer:</strong> $0.00/month</div>

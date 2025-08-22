@@ -6,4 +6,8 @@ environment  = "demo"
 
 db_password = "ChangeMe123!SecurePassword"
 
-instance_type    = "t2.micro"
+instance_type    = "t3.micro"
+
+#curl https://ipinfo.io/ip
+
+allowed_ssh_cidr = ["YOUR.ACTUAL.IP.HERE/32"]

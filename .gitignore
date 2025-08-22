@@ -27,7 +27,6 @@
 # IDE and editor folders
 /.vscode/
 /.idea/
-/.terraform/
 /*.sublime-workspace
 /*.sublime-project
 
@@ -52,3 +51,5 @@ bootstrap/terraform.tfstate.backup
 bootstrap/.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/windows_amd64/LICENSE.txt
 terraform/.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/windows_amd64/LICENSE.txt
 terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
