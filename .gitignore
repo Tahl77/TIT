@@ -50,3 +50,5 @@ bootstrap/.terraform.lock.hcl
 bootstrap/terraform.tfstate
 bootstrap/terraform.tfstate.backup
 bootstrap/.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/windows_amd64/LICENSE.txt
+terraform/.terraform/providers/registry.terraform.io/hashicorp/aws/5.100.0/windows_amd64/LICENSE.txt
+terraform/.terraform.lock.hcl
