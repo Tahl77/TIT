@@ -45,7 +45,7 @@ output "monitoring_credentials" {
   description = "Grafana login credentials"
   value = {
     username = "admin"
-    password = "tit-demo-2024"
+    password = "tit-demo-2025"
   }
   sensitive = true
 }
@@ -59,5 +59,18 @@ output "cost_summary" {
     nginx_lb          = "Open Source - $0.00/month"
     total_monthly     = "$0.00/month"
     vs_traditional    = "Saves ~$50/month vs ALB setup"
+  }
+}
+output "resource_group_arn" {
+  description = "ARN of the resource group containing all TIT resources"
+  value       = aws_resourcegroups_group.tit_resources.arn
+}
+
+output "aws_console_links" {
+  description = "Direct links to AWS Console for your resources"
+  value = {
+    ec2_instances    = "https://${var.aws_region}.console.aws.amazon.com/ec2/home?region=${var.aws_region}#Instances:tag:Project=TIT-DevMachine"
+    security_groups  = "https://${var.aws_region}.console.aws.amazon.com/ec2/home?region=${var.aws_region}#SecurityGroups:tag:Project=TIT-DevMachine"
+    resource_group   = "https://console.aws.amazon.com/resource-groups/group/TIT-DevMachine-Resources"
   }
 }

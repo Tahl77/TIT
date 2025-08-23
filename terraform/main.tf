@@ -17,6 +17,28 @@ provider "aws" {
     }
   }
 }
+#resource group
+resource "aws_resourcegroups_group" "tit_resources" {
+  name        = "TIT-DevMachine-Resources"
+  description = "All resources created by TIT Terraform deployment"
+
+  resource_query {
+    query = jsonencode({
+      ResourceTypeFilters = ["AWS::AllSupported"]
+      TagFilters = [
+        {
+          Key    = "Project"
+          Values = ["TIT-DevMachine"]
+        }
+      ]
+    })
+  }
+
+  tags = {
+    Name    = "TIT-DevMachine-ResourceGroup"
+    Project = "TIT-DevMachine"
+  }
+}
 
 # Use default VPC (Free)
 data "aws_vpc" "default" {
